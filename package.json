@@ -1,6 +1,6 @@
 {
   "name": "browserify-postcss",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "transform contents using postcss",
   "main": "index.js",
   "scripts": {
