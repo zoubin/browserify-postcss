@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/zoubin/browserify-postcss#readme",
   "dependencies": {
-    "postcss-processor": "^0.1.0",
+    "postcss": "^4.1.11",
+    "resolve": "^1.1.6",
     "sink-transform": "^0.1.2"
   },
   "devDependencies": {
