@@ -1,7 +1,6 @@
 # browserify-postcss
 [![version](https://img.shields.io/npm/v/browserify-postcss.svg)](https://www.npmjs.org/package/browserify-postcss)
 [![status](https://travis-ci.org/zoubin/browserify-postcss.svg)](https://travis-ci.org/zoubin/browserify-postcss)
-[![coverage](https://img.shields.io/coveralls/zoubin/browserify-postcss.svg)](https://coveralls.io/github/zoubin/browserify-postcss)
 [![dependencies](https://david-dm.org/zoubin/browserify-postcss.svg)](https://david-dm.org/zoubin/browserify-postcss)
 [![devDependencies](https://david-dm.org/zoubin/browserify-postcss/dev-status.svg)](https://david-dm.org/zoubin/browserify-postcss#info=devDependencies)
 
