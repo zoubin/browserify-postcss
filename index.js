@@ -1,42 +1,72 @@
-var sink = require("sink-transform")
-var resolve = require("resolve")
-var postcss = require("postcss")
+var sink = require('sink-transform')
+var PassThrough = require('stream').PassThrough
+var resolve = require('resolve')
+var postcss = require('postcss')
+var path = require('path')
 
-var processor
 module.exports = function (file, opts) {
-    opts = opts || {}
-    if (!processor) {
-        processor = getProcessor(opts)
-    }
-    var stream = sink.str(function (body, done) {
-        var self = this
-        processor.process(body, { from: file })
-            .then(function (result) {
-                self.push(result.css)
-                done()
-            }, function (err) {
-                stream.emit("error", err)
-            })
-    })
-    return stream
+  opts = opts || {}
+  var extensions = ['.css', '.scss', '.sass'].concat(opts.extensions).filter(Boolean)
+  if (extensions.indexOf(path.extname(file)) === -1) {
+    return PassThrough()
+  }
+  var processor = opts.processor || createProcessor(opts)
+  var postCssOptions = opts.postCssOptions
+  if (typeof postCssOptions === 'function') {
+    postCssOptions = postCssOptions(file)
+  }
+  postCssOptions = postCssOptions || {}
+  postCssOptions.from = postCssOptions.from || file
+  postCssOptions.to = postCssOptions.to || file
+
+  return sink.str(function (body, done) {
+    var self = this
+    processor.process(body, postCssOptions)
+      .then(function (result) {
+        self.push(moduleify(result.css, opts.inject))
+        done()
+      }, function (err) {
+        self.emit('error', err)
+      })
+  })
 }
 
-function getProcessor(opts) {
-    var plugins = [].concat(opts.plugin).filter(Boolean)
-    plugins = plugins.map(function (p) {
-        var op
-        if (Array.isArray(p)) {
-            op = p[1]
-            p = p[0]
-        }
-        if (typeof p !== "function") {
-            var pfile = resolve.sync(String(p), { basedir: opts.basedir || process.cwd() })
-            p = require(pfile)
-        }
-        return p(op)
-    })
+function base64(css) {
+  css = new Buffer(css).toString('base64')
+  return 'data:text/css;base64,' + css
+}
 
-    return postcss(plugins.concat(
-        opts.processor && opts.processor.plugins || []
-    ))
+function moduleify(css, inject) {
+  var exp
+  if (inject === 'base64') {
+    exp = 'require("' + path.basename(path.dirname(__dirname)) + '").byUrl("' + base64(css) + '")'
+  } else if (inject) {
+    exp = 'require("browserify-postcss")("' + css.replace(/'/gm, "\\'").replace(/\n/gm, ' ') + '")'
+  } else {
+    exp = JSON.stringify(css)
+  }
+  return 'module.exports = ' + exp
+}
+
+function createProcessor(opts) {
+  return postcss(
+    [].concat(opts.plugin).filter(Boolean).map(function (p) {
+      var opt
+      if (Array.isArray(p)) {
+        opt = p[1]
+        p = p[0]
+      }
+      if (typeof p === 'string') {
+        p = require(
+          resolve.sync(String(p), {
+            basedir: opts.basedir || process.cwd(),
+          })
+        )
+      }
+      if (typeof p === 'function') {
+        return p(opt)
+      }
+      return p
+    })
+  )
 }

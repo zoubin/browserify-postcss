@@ -1,38 +1,86 @@
 # browserify-postcss
-transform contents using postcss
+A [browserify] transform to work with [postcss].
 
-## Usage
+## Example
 
-example/var.js:
+The build script:
 
 ```javascript
-var plugin = require("browserify-postcss")
+var browserify = require('browserify')
+var fs = require('fs')
 
-var tr = plugin("fake.css", {
-    plugin: "postcss-simple-vars",
-    basedir: __dirname
+var to = __dirname + '/static/bundle.js'
+var b = browserify(__dirname + '/src/entry.js')
+b.transform(require('browserify-postcss', {
+  // a list of postcss plugins
+  plugin: [
+    'postcss-import',
+    'postcss-advanced-variables',
+    ['postcss-custom-url', [
+      ['inline', { maxSize: 10 }],
+      ['copy', { assetOutFolder: __dirname + '/static/assets' }],
+    ]],
+  ],
+  // basedir where to search plugins
+  basedir: __dirname + '/src',
+  // options for processing.
+  postCssOptions: { to: to },
+  // insert a style element to apply the styles
+  inject: true,
 })
-tr.end("$color: red; .fake { color: $color; }")
-tr.pipe(process.stdout)
+b.bundle().pipe(
+  fs.createWriteStream(to)
+)
 
 ```
 
-output:
+entry.js:
+
+```js
+require('./entry.css')
+
+console.log('styles from entry.css are applied')
 
 ```
-⌘ node example/vars.js
-.fake { color: red;  }
-```
 
-### tr = plugin(file, opts)
+## Options
 
-### Options
+### plugin
+Specify a list of [postcss] plugins to apply.
 
-#### plugin
-
-Type: `String|Array`
+Type: `String`, `Array`
 Default: `null`
 
-postcss plugins used to transform the content
+### basedir
+Specify where to look for plugins.
 
-If `Array`, each element can be `String`, `Function`, or `Array`.
+### postCssOptions
+Specify the options for the [postcss] processor.
+
+The `from` and `to` fields will be set to the css file path by default.
+
+### inject
+Specify how to use the styles:
+
+If `true`, styles are applied immediately.
+If `false`, `require('style.css')` will return the string representation of the styles.
+
+### extensions
+A list of file extensions to identify styles.
+
+Type: `Array`
+
+Default: `['.css', '.scss', '.sass']`
+
+## Watch
+Imported files will **NOT** be watched when used with [watchify].
+
+## Related
+
+* [reduce-css]: bundle css files without `require`ing them in js.
+
+
+[browserify]: https://github.com/substack/node-browserify
+[watchify]: https://github.com/substack/watchify
+[postcss]: https://github.com/postcss/postcss
+[reduce-css]: https://github.com/reducejs/reduce-css
