@@ -15,7 +15,6 @@ The build script:
 var browserify = require('browserify')
 var fs = require('fs')
 
-var to = __dirname + '/static/bundle.js'
 var b = browserify(__dirname + '/src/entry.js')
 b.transform(require('browserify-postcss', {
   // a list of postcss plugins
@@ -24,13 +23,15 @@ b.transform(require('browserify-postcss', {
     'postcss-advanced-variables',
     ['postcss-custom-url', [
       ['inline', { maxSize: 10 }],
-      ['copy', { assetOutFolder: __dirname + '/static/assets' }],
+      ['copy', {
+        assetOutFolder: __dirname + '/static/assets',
+        baseUrl: 'assets',
+        name: '[name].[hash]',
+      }],
     ]],
   ],
   // basedir where to search plugins
   basedir: __dirname + '/src',
-  // options for processing.
-  postCssOptions: { to: to },
   // insert a style element to apply the styles
   inject: true,
 })
@@ -61,9 +62,14 @@ Default: `null`
 Specify where to look for plugins.
 
 ### postCssOptions
-Specify the options for the [postcss] processor.
+Specify the [options](https://github.com/postcss/postcss/blob/master/docs/api.md#processorprocesscss-opts)
+for the [postcss] processor.
 
 The `from` and `to` fields will be set to the css file path by default.
+
+The `to` option is used to calculated `url()` in the final styles.
+However, if your [postcss] plugin does not need it,
+don't bother to specify.
 
 ### inject
 Specify how to use the styles:
