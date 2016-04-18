@@ -4,7 +4,10 @@
   "description": "transform contents using postcss",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "npm run lint && tap test/*.js",
+    "cov": "tap --cov test/*.js",
+    "lint": "eslint *.js 'lib/**/*.js' test/*.js bin/*.js",
+    "coveralls": "COVERALLS_REPO_TOKEN=REPO_TOKEN npm run cov"
   },
   "repository": {
     "type": "git",
@@ -14,6 +17,7 @@
     "browserify",
     "postcss"
   ],
+  "browser": "browser.js",
   "author": "zoubin",
   "license": "MIT",
   "bugs": {
@@ -21,12 +25,18 @@
   },
   "homepage": "https://github.com/zoubin/browserify-postcss#readme",
   "dependencies": {
-    "postcss": "^4.1.11",
+    "cssify": "^1.0.2",
+    "postcss": "^5.0.0",
     "resolve": "^1.1.6",
-    "sink-transform": "^0.1.2"
+    "sink-transform": "^2.0.0"
   },
   "devDependencies": {
-    "postcss-simple-vars": "^0.3.0",
-    "tape": "^4.0.0"
+    "browserify": "^13.0.0",
+    "del": "^2.2.0",
+    "eslint": "^2.1.0",
+    "postcss-advanced-variables": "^1.2.2",
+    "postcss-custom-url": "^4.2.0",
+    "postcss-import": "^8.1.0",
+    "tap": "^5.0.0"
   }
 }
