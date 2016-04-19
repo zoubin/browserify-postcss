@@ -5,3 +5,8 @@
   color: $red;
 }
 
+.entry:before {
+  content: 'abc';
+  color: green;
+}
+
