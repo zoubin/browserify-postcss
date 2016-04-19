@@ -1,4 +1,16 @@
-<!-- 805889a 1460978922000 -->
+<!-- 6130767 1461033112000 -->
+
+## [v0.3.2](https://github.com/zoubin/browserify-postcss/commit/6130767) (2016-04-19)
+
+* [[`1c8775d`](https://github.com/zoubin/browserify-postcss/commit/1c8775d)] Fix: inject, css should be surrounded with single quotes
+
+## [v0.3.1](https://github.com/zoubin/browserify-postcss/commit/689cc1a) (2016-04-18)
+
+* [[`50821f8`](https://github.com/zoubin/browserify-postcss/commit/50821f8)] readme
+
+* [[`9e99e70`](https://github.com/zoubin/browserify-postcss/commit/9e99e70)] Example and readme
+
+* [[`e16c8a9`](https://github.com/zoubin/browserify-postcss/commit/e16c8a9)] changelog
 
 ## [v0.3.0](https://github.com/zoubin/browserify-postcss/commit/805889a) (2016-04-18)
 
