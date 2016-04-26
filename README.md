@@ -15,7 +15,7 @@ var browserify = require('browserify')
 var fs = require('fs')
 
 var b = browserify(__dirname + '/src/entry.js')
-b.transform(require('browserify-postcss', {
+b.transform('browserify-postcss', {
   // a list of postcss plugins
   plugin: [
     'postcss-import',
