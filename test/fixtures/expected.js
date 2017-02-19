@@ -1,1 +1,0 @@
-module.exports = ".inline {\n  background-image: url(deps/octocat_setup.png);\n}\n.copy {\n  background-image: url(deps/octocat_fork.png);\n}\n.entry {\n  color: #ff0000;\n}\n\n"

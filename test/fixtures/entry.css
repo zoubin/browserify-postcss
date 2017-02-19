@@ -1,7 +1,0 @@
-@import "colors";
-@import "./deps";
-
-.entry {
-  color: $red;
-}
-

@@ -4,10 +4,7 @@
   "description": "transform contents using postcss",
   "main": "index.js",
   "scripts": {
-    "test": "npm run lint && tap test/*.js",
-    "cov": "tap --cov test/*.js",
-    "lint": "eslint *.js 'lib/**/*.js' test/*.js bin/*.js",
-    "coveralls": "COVERALLS_REPO_TOKEN=REPO_TOKEN npm run cov"
+    "test": "standard *.js 'test/**/*.js' && node test/index.js"
   },
   "repository": {
     "type": "git",
@@ -31,12 +28,13 @@
     "sink-transform": "^2.0.0"
   },
   "devDependencies": {
-    "browserify": "^13.0.0",
-    "del": "^2.2.0",
-    "eslint": "^2.1.0",
+    "browserify": "^14.1.0",
     "postcss-advanced-variables": "^1.2.2",
-    "postcss-custom-url": "^4.2.0",
-    "postcss-import": "^8.1.0",
-    "tap": "^5.0.0"
+    "postcss-import": "^9.1.0",
+    "postcss-nested": "^1.0.0",
+    "standard": "*",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.3",
+    "tape-run": "^2.1.5"
   }
 }

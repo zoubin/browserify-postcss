@@ -31,15 +31,15 @@ module.exports = function (file, opts) {
   })
 }
 
-function base64(css) {
+function base64 (css) {
   css = new Buffer(css).toString('base64')
   return 'data:text/css;base64,' + css
 }
 
-function moduleify(css, inject) {
+function moduleify (css, inject) {
   var exp
   if (inject === 'base64') {
-    exp = 'require("' + path.basename(path.dirname(__dirname)) + '").byUrl("' + base64(css) + '")'
+    exp = 'require("browserify-postcss").byUrl("' + base64(css) + '")'
   } else if (inject) {
     exp = "require('browserify-postcss')('" + css.replace(/\\/g, '\\\\').replace(/'/gm, "\\'").replace(/[\r\n]+/gm, ' ') + "')"
   } else {
@@ -48,7 +48,7 @@ function moduleify(css, inject) {
   return 'module.exports = ' + exp
 }
 
-function createProcessor(opts) {
+function createProcessor (opts) {
   return postcss(
     [].concat(opts.plugin).filter(Boolean).map(function (p) {
       var opt
@@ -59,7 +59,7 @@ function createProcessor(opts) {
       if (typeof p === 'string') {
         p = require(
           resolve.sync(String(p), {
-            basedir: opts.basedir || process.cwd(),
+            basedir: opts.basedir || process.cwd()
           })
         )
       }

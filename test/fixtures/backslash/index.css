@@ -1,0 +1,6 @@
+body {
+  .basic::before {
+    content: '\0041';
+    color: yellow;
+  }
+}
