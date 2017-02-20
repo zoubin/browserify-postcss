@@ -30,6 +30,7 @@
   "devDependencies": {
     "browserify": "^14.1.0",
     "postcss-advanced-variables": "^1.2.2",
+    "postcss-custom-url": "^4.2.1",
     "postcss-import": "^9.1.0",
     "postcss-nested": "^1.0.0",
     "standard": "*",

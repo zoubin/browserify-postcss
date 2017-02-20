@@ -1,5 +1,6 @@
 var browserify = require('browserify')
 var fs = require('fs')
+var path = require('path')
 
 var del = require('del')
 
@@ -23,6 +24,7 @@ b.transform(require('..'), {
   basedir: __dirname + '/src',
   inject: true,
 })
+b.require('../index.js', { expose: 'browserify-postcss' })
 b.bundle().pipe(
   fs.createWriteStream(__dirname + '/static/bundle.js')
 )
