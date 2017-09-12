@@ -19,6 +19,18 @@ module.exports = function (file, opts) {
   postCssOptions.from = postCssOptions.from || file
   postCssOptions.to = postCssOptions.to || file
 
+  var parser = opts.parser;
+  if (parser) {
+    if (typeof parser === 'string') {
+      parser = require(
+        resolve.sync(String(parser), {
+          basedir: opts.basedir || process.cwd()
+        })
+      );
+    }
+    postCssOptions.parser = parser;
+  }
+
   return sink.str(function (body, done) {
     var self = this
     processor.process(body, postCssOptions)
