@@ -23,7 +23,7 @@
   "homepage": "https://github.com/zoubin/browserify-postcss#readme",
   "dependencies": {
     "cssify": "^1.0.2",
-    "postcss": "^5.0.0",
+    "postcss": "^6.0.0",
     "resolve": "^1.1.6",
     "sink-transform": "^2.0.0"
   },

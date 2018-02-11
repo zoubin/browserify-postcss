@@ -30,4 +30,3 @@ test('backslash', function (t) {
   }
   var timer = window.setTimeout(link.onload, 1000)
 })
-

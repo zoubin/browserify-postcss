@@ -33,4 +33,3 @@ runTest('basic')
   .then(function () {
     reporter.end()
   })
-

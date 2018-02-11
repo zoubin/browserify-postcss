@@ -32,7 +32,7 @@ module.exports = function (file, opts) {
 }
 
 function base64 (css) {
-  css = new Buffer(css).toString('base64')
+  css = Buffer.from(css).toString('base64')
   return 'data:text/css;base64,' + css
 }
 
